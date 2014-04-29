@@ -25,8 +25,8 @@ end
 
 class Mkvtoolnix < Formula
   homepage 'http://www.bunkus.org/videotools/mkvtoolnix/'
-  url 'http://www.bunkus.org/videotools/mkvtoolnix/sources/mkvtoolnix-6.8.0.tar.xz'
-  sha1 'd742eb0c38de48d0f12363252115c0d966e8abc3'
+  url 'http://www.bunkus.org/videotools/mkvtoolnix/sources/mkvtoolnix-6.9.1.tar.xz'
+  sha1 '6c62d91663fd382b0b66da6548eea5a5c37f8128'
 
   head 'https://github.com/mbunkus/mkvtoolnix.git'
 
@@ -36,7 +36,7 @@ class Mkvtoolnix < Formula
   depends_on 'flac' => :optional
   depends_on 'lzo' => :optional
   # On Mavericks, the bottle (without c++11) can be used
-  # because mkvtoolnix is linked against libstdc++ by default
+  # because mkvtoolnix is linked against libc++ by default
   if MacOS.version >= 10.9
     depends_on 'boost'
     depends_on 'libmatroska'
@@ -47,28 +47,7 @@ class Mkvtoolnix < Formula
     depends_on 'libebml' => 'c++11'
   end
 
-  fails_with :clang do
-    build 425
-    cause 'Mkvtoolnix requires a C++11 compliant compiler.'
-  end
-
-  fails_with :gcc do
-    build 5666
-    cause 'Mkvtoolnix requires a C++11 compliant compiler.'
-  end
-
-  fails_with :gcc => '4.5.4' do
-    cause 'Mkvtoolnix requires a C++11 compliant compiler.'
-  end
-
-  fails_with :gcc_4_0 do
-    cause 'Mkvtoolnix requires a C++11 compliant compiler.'
-  end;
-
-  fails_with :llvm do
-    build 2336
-    cause 'Mkvtoolnix requires a C++11 compliant compiler.'
-  end
+  needs :cxx11
 
   def install
     ENV.cxx11
